@@ -5,6 +5,11 @@ import App from './App'
 import router from './router'
 //将状态管理的文件引入进来
 import store from '@/store'
+// 将图标库的JS文件引入进来
+import '@/assets/image/icon/iconfont.js'
+// 将全局的样式引入进来
+import '@/assets/style/index'
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
