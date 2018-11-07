@@ -4,5 +4,5 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  BASE_API: "http://localhost:3000/api" // 发送请求地址的前缀
+  BASE_API:"http://localhost:3000/api" //发送请求的地址前缀
 })

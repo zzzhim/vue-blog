@@ -1,6 +1,6 @@
 # admin
 
-> A Vue.js project
+> blog-system
 
 ## Build Setup
 
