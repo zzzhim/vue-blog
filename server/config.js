@@ -11,6 +11,6 @@ export const dbName = {
 }
 
 
-export const base_API = 'api/'
+export const base_API = '/api'
 
 export const secret = 'him'

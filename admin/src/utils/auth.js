@@ -2,6 +2,7 @@
 import Cookies from 'js-cookie'
 const TokenKey = 'Admin-Token'
 
+// cookie的一些方法
 export function getToken(){
   return Cookies.get(TokenKey)
 }

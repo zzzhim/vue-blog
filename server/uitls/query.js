@@ -13,25 +13,61 @@ const sqlContent = fs.readFileSync(path.resolve(__dirname, '..', './sql/ashen_db
 const init = mysql.createConnection(db)
 
 init.connect()
-init.query('CREATE DATABASE vue_blog', err => {
-    Object.assign(db, dbName)
 
-    // 第二次连接数据库,这时候,数据库vue_blog已经创建成功了,这时候,直接连接vue_blog数据库
-    // 然后执行sql文件夹下的vue_blog
+const init = mysql.createConnection(db)
+init.connect()
+let pool
+
+init.query('CREATE DATABASE zhen_blog', err => {
+    Object.assign(db, dbName)
     pool = mysql.createPool(db)
-    if(err) {
-        console.log('vue_blog database created already');
-    }else {
-        console.log('CREATE vue_blog DATABASE');
+    if (err) {
+        console.log("数据库已存在")
+    } else {
         query(sqlContent).then(res => {
-            console.log('import sql is success');
+            console.log('数据库创建成功')
         }).catch(err => {
-            console.log('import sql is error');
-            console.log(err);
+            console.log(err)
         })
     }
 })
 init.end()
+
+// 判断如果数据库存在
+// let data = null;
+// ;(async () => {
+//     data = await new Promise(resolve => {
+//         init.query('SHOW DATABASES LIKE "vue_blog"', (err, data) => {
+//             resolve(data)
+//         })
+//     })
+    
+//     if (!data[0]) {
+//         console.log('正在创建数据库');
+
+//         init.query('CREATE DATABASE vue_blog', err => {
+//             Object.assign(db, dbName)
+//             // 第二次连接数据库,这时候,数据库vue_blog已经创建成功了,这时候,直接连接vue_blog数据库
+//             // 然后执行sql文件夹下的vue_blog
+//             pool = mysql.createPool(db)
+//             if (err) {
+//                 console.log('vue_blog database created already');
+//             } else {
+//                 console.log('CREATE vue_blog DATABASE');
+//                 query(sqlContent).then(res => {
+//                     console.log('数据库创建成功');
+//                 }).catch(err => {
+//                     console.log('import sql is error');
+//                     console.log(err);
+//                 })
+//             }
+//         })
+//     } else {
+//         console.log('数据库已创建');
+//     }
+
+//     init.end()
+// })()
 
 // 封装一个query方法,方便我们进行sql语句的执行
 export default function query(sql, values) {
@@ -52,3 +88,4 @@ export default function query(sql, values) {
         })
     })
 }
+
