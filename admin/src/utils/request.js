@@ -30,8 +30,8 @@ service.interceptors.response.use(
     const res = response.data
     // if(res.status)
     // console.log(response.status);
-    console.log(res);
     if (res.code == 401) { // token已过期的状态码
+      
       // 删除token
       removeToken()
       // 刷新页面
@@ -43,7 +43,6 @@ service.interceptors.response.use(
     // return response.data
   },
   error => {
-
     console.log('err' + error) // for debug
     return Promise.reject(error)
   }

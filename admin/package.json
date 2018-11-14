@@ -2,7 +2,7 @@
   "name": "admin",
   "version": "1.0.0",
   "description": "blog-system",
-  "author": "lizhiyuan <148334733@qq.com>",
+  "author": "wangyafei<<3218566389@qq.com>>",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
