@@ -1,14 +1,82 @@
 <template>
-    <div>
-        <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-liebiao"></use>
-        </svg>
+    <div style="height:100%">
+        <head-nav></head-nav>
+        <aside-a></aside-a>
+        <div class="list-container main">
+            <h2>
+                文章列表 /
+                <span>ARTICLE LIST</span>
+            </h2>
+            <hr>
+            <main>
+                <div class="article-list">
+                    <section class="btn-container">
+                        <button id="add" class="not-del" @click="postArticle">新文章</button>
+                    </section>
+                    <!-- 文章列表的组件 -->
+                    <article-list ref="articleList"></article-list>
+                </div>
+                <!-- 编辑器的组件 -->
+                <editor></editor>
+            </main>
+        </div>
     </div>
 </template>
 
-
 <script>
-    export default {
+    import ArticleList from '../common/ArticleList.vue'
+    import Editor from '../common/Editor.vue'
+    import Aside from '../common/Aside.vue'
+    import HeadNav from '../common/HeadNav.vue'
 
+
+    export default {
+        name: 'List',
+        data() {
+            return {
+                ArticleList: []
+            }
+        },
+        methods: {
+            // 发表文章的方法
+            postArticle() {
+
+            }
+        },
+        components: {
+           'article-list': ArticleList,
+            'editor': Editor,
+            'aside-a': Aside,
+            'head-nav': HeadNav
+        }
     }
 </script>
+
+<style lang="scss" scoped>
+@import '../../assets/style/variable.scss';
+
+main {
+    @include flex($justify: space-between);
+    height: calc(100% - 48px);
+    padding: 0.5em 0;
+}
+
+.article-list {
+    width: 40%;
+    height: 100%;
+    overflow: auto;
+    padding: 0 0.8em 0.5em 0;
+    .list {
+        // margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+}
+
+.editor {
+    width: 58%;
+    height: 100%;
+    padding: 0 0.8em 0.5em 0;
+    overflow: auto;
+}
+</style>

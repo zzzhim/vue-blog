@@ -21,7 +21,7 @@ export default new Router({
     },
     {
       path: '*',
-      component: () => import('@/components/Login')
+      component: () => import('@/components/List')
     }
   ]
 })
