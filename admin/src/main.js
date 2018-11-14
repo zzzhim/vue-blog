@@ -16,11 +16,13 @@ import veeValidate from 'vee-validate'
 // 我们在这里，引入一个消息提示的插件，用来对用户的真实合法性进行验证
 import Notification from 'vue-notification'
 
-
 Vue.config.productionTip = false
 
 Vue.use(veeValidate)
 Vue.use(Notification)
+
+// 加入我们的权限判断
+import '@/permission'
 
 /* eslint-disable no-new */
 new Vue({

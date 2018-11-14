@@ -9,7 +9,7 @@
             <span class="slogan">登登登登...录!
                 <span>/ Login</span>
             </span>
-            <input name="user" v-validate="'required|min:6|max:16|alpha_dash'" type="text" id="user" placeholder="请输入用户名" v-model="LoginForm.user">
+            <input name="user" v-validate="'required|min:5|max:16|alpha_dash'" type="text" id="user" placeholder="请输入用户名" v-model="LoginForm.user">
             <input name="password" v-validate="'required|alpha_num'" type="password" id="password" placeholder="请输入密码" v-model="LoginForm.password" @keydown.enter="login">
             <button id="login" @click="login">登录</button>
         </section>
@@ -21,9 +21,13 @@
 </template>
 
 <script>
-// 引入请求的模块
+    // 引入请求的模块
     import request from '@/utils/request'
+        // 设置验证的方法
     import { Validator } from 'vee-validate'
+    // 引入设置cookie的方法
+
+    import { setToken } from '@/utils/auth.js'
 
     const dict = {
         custom: {
@@ -59,6 +63,23 @@
                         data: this.LoginForm
                     }).then(res => {
                         console.log(res);
+                        if(res.success) {
+                            const token = res.token
+                            // 把token存到cookie
+                            setToken(token)
+
+                            this.$store.commit('SET_TOKEN', token)
+                            this.$router.push('/list')
+                        }else {
+                            // 如果用户名、密码不正确,要给出提示
+                            this.$notify({
+                                type: 'error',
+                                group: 'user',
+                                title: '登录失败',
+                                text: res.message
+                            })
+                            // this.LoginForm = {}
+                        }
                     }).catch(err => {
                         // 如果发请求的时候有错误,把错误扔到控制台中
                         console.log(err);
@@ -67,7 +88,7 @@
                         // 跳转到博客系统的首页,也就是/list页面
                     })
                 }else {
-                    console.log('验证没有通过');
+                    console.log('验证没有通过')
                     this.$notify({
                         width: 1000,
                         type: 'warn',

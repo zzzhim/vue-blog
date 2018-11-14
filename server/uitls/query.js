@@ -14,11 +14,7 @@ const init = mysql.createConnection(db)
 
 init.connect()
 
-const init = mysql.createConnection(db)
-init.connect()
-let pool
-
-init.query('CREATE DATABASE zhen_blog', err => {
+init.query('CREATE DATABASE vue_blog', err => {
     Object.assign(db, dbName)
     pool = mysql.createPool(db)
     if (err) {
