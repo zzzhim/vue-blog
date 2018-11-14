@@ -24,12 +24,34 @@
  * @author
  * @file 顶部公用导航栏组件
  * */
+import request from '@/utils/request'
+import { removeToken } from '@/utils/auth'
 
 export default {
+
+    data() {
+        return {
+
+        }
+    },
     methods: {
-        logOut() {
-            localStorage.removeItem('ashenToken')
-            this.$router.push('/')
+        logOut() { // 登出
+            request({
+                url: '/logOut',
+                method: 'get'
+            }).then(res => {
+                // 判断状态
+                if(res.success){
+                    // 删除token
+                    this.$store.commit('SET_TOKEN', '')
+                    removeToken()
+                    // this.$router.push('/login')
+                    // 强制刷新页面,重新判断下是否具备权限
+                    location.reload();
+                }
+            }).catch(err => {
+                console.log(err);
+            })
         }
     }
 }

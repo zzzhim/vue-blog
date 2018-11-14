@@ -52,13 +52,13 @@ class UserController {
                 status: 200
             }
         }
+    }
 
-        // 检查密码是否正确
-
-        // 生成token
-
-        // 最后返回token
-
+    async logOut(ctx) {
+        ctx.body = {
+            success: true,
+            message: '退出成功'
+        }
     }
 }
 
