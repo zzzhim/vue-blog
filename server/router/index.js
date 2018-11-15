@@ -24,13 +24,18 @@ router.get('/', async ctx => {
     ctx.body = '我是首页的接口'
 })
 
-// 登录
-router.post('/login', UserController.login)
 // 登出
 // 只要是登录后才能看到的内容都需要验证一下token的合法性
 router.get('/logOut', checkToken, UserController.logOut)
 // 获取所有的文章
 router.get('/articles', checkToken, ArticleController.getArticles)
+// 查询一下最新发布的那篇文章的详细信息
+router.get('/articles/:id', checkToken, ArticleController.getOneArticle)
+
+// 登录
+router.post('/login', UserController.login)
+// 添加一篇新文章
+router.post('/articles/add', checkToken, ArticleController.addArticle)
 
 
 export default router

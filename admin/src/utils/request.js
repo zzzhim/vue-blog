@@ -28,19 +28,15 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response =>{
     const res = response.data
-    // if(res.status)
-    // console.log(response.status);
-    if (res.code == 401) { // token已过期的状态码
-      
-      // 删除token
+    //这里面可以设置自定义的返回错误
+    if (res.code === 40001) {
+      //token已过期的状态码
       removeToken()
-      // 刷新页面
+      store.commit('SET_TOKEN', '')
       location.reload()
-    }else {
+    } else {
       return response.data
     }
-    // //这里面可以设置自定义的返回错误
-    // return response.data
   },
   error => {
     console.log('err' + error) // for debug

@@ -4,7 +4,6 @@
             <li class="article"  :class="{active: activeIndex === index, published: isPublished === 1}" v-for="{title, createTime,isPublished, isChosen},index in articleList"  >
                 <header>{{ title }}</header>
                 <p>{{ createTime }}</p>
-
             </li>
         </ul>
     </div>
@@ -13,6 +12,7 @@
 <script>
     import request from '@/utils/request'
     import moment from 'moment'
+    import { mapState, mapMutations } from 'vuex'
 
     export default {
         name: "ArticleList",
@@ -22,8 +22,31 @@
                 activeIndex: -1
             }
         },
+        // 把全局的vuex里面的state和mutations放到计算属性中
+        computed: {
+            ...mapState(['id', 'title', 'tags', 'content', 'isPublished']),
+            ...mapMutations(['SET_CURRENT_ARTICLE'])
+        },
+        methods: {
+            updateList(updateId) {
+                request({
+                    method: 'get',
+                    url: `/articles/${updateId}`
+                }).then(res => {
+                    let article = res[0]
+                    
+                    article.createTime = moment(article.createTime).format('YYYY年--MM月--DD日 HH:mm:ss')
+                    article.isChosen = true
+                    this.articleList.unshift(article)
+                    console.log(this.articleList);
+                    
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+        },
         // 当该组件创建的时候自动执行里面的请求
-        mounted() {
+        created() {
             request({
                 method: 'get',
                 url: '/articles'
