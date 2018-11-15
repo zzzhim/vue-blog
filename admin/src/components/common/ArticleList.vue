@@ -1,17 +1,25 @@
 <template>
     <div>
+        <ul class="list">
+            <li class="article"  :class="{active: activeIndex === index, published: isPublished === 1}" v-for="{title, createTime,isPublished, isChosen},index in articleList"  >
+                <header>{{ title }}</header>
+                <p>{{ createTime }}</p>
 
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
     import request from '@/utils/request'
+    import moment from 'moment'
 
     export default {
         name: "ArticleList",
         data() {
             return {
-                articleList: []
+                articleList: [],
+                activeIndex: -1
             }
         },
         // 当该组件创建的时候自动执行里面的请求
@@ -20,11 +28,15 @@
                 method: 'get',
                 url: '/articles'
             }).then(res => {
+                // this.articleList = res
+                // console.log(res);
+                for(let article of res) {
+                    article.createTime = moment(article.createTime).format('YYYY年--MM月--DD日 HH:mm:ss')
+                    article.isChosen = true
+                }
                 this.articleList = res
-                console.log(res);
-                
             }).catch(err => {
-                console.log(err);
+                console.log(err)
             })
         },
     }
