@@ -71,6 +71,8 @@
                 console.log(err)
             })
         },
+        watch:{
+        }
     }
 </script>
 
