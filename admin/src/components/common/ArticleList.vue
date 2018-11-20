@@ -24,7 +24,7 @@
         },
         // 把全局的vuex里面的state和mutations放到计算属性中
         computed: {
-            ...mapState(['id', 'title', 'tags', 'content', 'isPublished']),
+            ...mapState(['id', 'title', 'tags', 'content', 'isPublished', 'toggleDelete']),
         },
         methods: {
             updateList(updateId) {
@@ -71,7 +71,42 @@
                 console.log(err)
             })
         },
+        // 监听vuex数据
         watch:{
+            title(val) {
+                if(this.articleList.length !== 0) {
+                    this.articleList[this.activeIndex].title = val
+                }
+            },
+            tags(val) {
+                if(this.articleList.length !== 0) {
+                    this.articleList[this.activeIndex].tags = val
+                }
+            },
+            content(val) {
+                if(this.articleList.length !== 0) {
+                    this.articleList[this.activeIndex].isPublished = val
+                }
+            },
+            toggleDelete(val) {
+                // 如果这个值有变化,从false变成true,说明当前文章是需要删除的
+                this.articleList.splice(this.activeIndex, 1)
+                if(this.activeIndex === this.articleList.length) {
+                    this.activeIndex--
+                }
+
+                if(this.articleList.length !== 0) {
+                    this.SET_CURRENT_ARTICLE(this.articleList[this.activeIndex])
+                }else {
+                    this.SET_CURRENT_ARTICLE({
+                        id: '',
+                        title: '',
+                        tags: '',
+                        content: '',
+                        isPublished: ''
+                    })
+                }
+            }
         }
     }
 </script>
@@ -112,4 +147,5 @@
 .published {
     border-right: 4px solid $base;
 }
+
 </style>

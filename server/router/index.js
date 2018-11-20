@@ -36,6 +36,11 @@ router.get('/articles/:id', checkToken, ArticleController.getOneArticle)
 router.post('/login', UserController.login)
 // 添加一篇新文章
 router.post('/articles/add', checkToken, ArticleController.addArticle)
-
+//更新一篇新的文章
+router.post('/articles/update/:id', checkToken, ArticleController.updateArticle)
+// 删除一篇文章
+router.delete('/articles/del/:id', checkToken, ArticleController.deleteArticle)
+// 发布文章
+router.put('/articles/publish/:id', checkToken, ArticleController.publishArticle)
 
 export default router
