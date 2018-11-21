@@ -8,8 +8,9 @@
                     background-color="#333333"
                     text-color="#ffffff"
                     active-text-color="	#409EFF"
-                    :default-active="'1'"
+                    :default-active="'0'"
                 >
+                    <el-menu-item index="0" class="box-NavBar-list">首页</el-menu-item>
                     <el-menu-item index="1" class="box-NavBar-list">文章</el-menu-item>
                     <el-menu-item index="2" class="box-NavBar-list">归档</el-menu-item>
                     <el-menu-item index="3" class="box-NavBar-list">标签</el-menu-item>
@@ -35,7 +36,8 @@
             handleSelect(key, keyPath) {
                 console.log(key, keyPath)
             }
-        }
+        },
+
     }
 </script>
 

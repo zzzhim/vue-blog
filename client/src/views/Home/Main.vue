@@ -29,7 +29,6 @@
     }
 </script>
 
-
 <style lang="less">
     .box-card {
 
