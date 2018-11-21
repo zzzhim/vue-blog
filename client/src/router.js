@@ -21,6 +21,22 @@ let router = new Router({
       path: '/registered',
       name: 'registered',
       component: () => import('./views/Registered')
+    },
+    {
+      path: '/articles/:id',
+      name: 'articles',
+      component: () => import('./views/Articles'),
+      props: true
+    },
+    {
+      path: '/archive',
+      name: 'archive',
+      component: () => import('./views/Archive')
+    },
+    {
+      path: '/tags',
+      name: 'tags',
+      component: () => import('./views/Tags')
     }
   ]
 })

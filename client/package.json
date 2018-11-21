@@ -9,7 +9,10 @@
   "dependencies": {
     "axios": "^0.18.0",
     "element-ui": "^2.4.5",
+    "highlight.js": "^9.13.1",
     "js-cookie": "^2.2.0",
+    "marked": "^0.5.2",
+    "moment": "^2.22.2",
     "nprogress": "^0.2.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",

@@ -10,6 +10,7 @@ import ArticleController from '../Controller/ArticleController'
 
 // 引入展示页面登录注册器
 import ClientUserController from '../ClinetController/UserController'
+import GetArticleController from '../ClinetController/GetArticleController'
 
 const router = new Router()
 
@@ -46,5 +47,13 @@ router.put('/articles/publish/:id', checkToken, ArticleController.publishArticle
 // 展示页面
 router.post('/client/registered', ClientUserController.registered)
 router.post('/client/login', ClientUserController.login)
+
+router.get('/client/home', GetArticleController.GetHome)
+
+router.get('/client/articles', GetArticleController.GetArticles)
+
+router.get('/client/archive', GetArticleController.GetArchive)
+
+router.get('/client/tags', GetArticleController.GetTags)
 
 export default router

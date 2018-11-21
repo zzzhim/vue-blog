@@ -1,28 +1,23 @@
 <template>
     <el-container direction="vertical">
         <v-header :activeIndex="activeIndex"></v-header>
-        <el-container>
-            <v-aside></v-aside>
-            <v-main></v-main>
-        </el-container>
+        <v-main></v-main>
     </el-container>
 </template>
 
 <script>
     import Header from '@/components/Header'
-    import Aside from './Aside.vue'
     import Main from './Main.vue'
 
     export default {
-        name: 'home',
+        name: 'Archive',
         data() {
             return {
-                activeIndex: "/home"
+                activeIndex: "/tags"
             }
         },
         components: {
             'v-header': Header,
-            'v-aside': Aside,
             'v-main': Main
         }
     }

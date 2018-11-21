@@ -2,15 +2,15 @@
     <el-main>
         <el-row>
             <el-col :span="24">
-                <el-card class="box-card" shadow="hover">
+                <el-card class="box-card" shadow="hover" v-for="(item,index) in GetArtiles" :key="index">
                     <div slot="header" class="box-card-header">
-                        <router-link to="" class="box-card-header-title" tag="h1">{{ '欢迎来到Blog!' }}</router-link>
+                        <router-link :to="`/articles/${item.id}`" class="box-card-header-title" tag="h1" v-html="item.title"></router-link>
                     </div>
                     <div class="box-card-content">
-                        <time class="box-card-content-time">{{ '2018年 1月 02日 16:07:26' }}</time>
-                        <div class="box-card-content-title">{{ 'Enjoy ur self here!' }}</div>
-                        <router-link tag="footer" to="" class="box-card-content-footer">
-                            {{ '... continue reading' }}
+                        <time class="box-card-content-time" v-html="item.publishTime"></time>
+                        <div class="box-card-content-title"  v-html="parseMarkdown(item.content)"></div>
+                        <router-link tag="footer" :to="`/articles/${item.id}`" class="box-card-content-footer">
+                            {{ '... 继续阅读' }}
                         </router-link>
                     </div>
                 </el-card>
@@ -20,18 +20,42 @@
 </template>
 
 <script>
+    import request from '@/utils/request'
+    import moment from 'moment'
+    import parseMarkdown from '@/utils/parseMarkdown'
+
     export default {
         data() {
             return {
-
+                GetArtiles: null
             }
+        },
+        methods: {
+            parseMarkdown,
+        },
+        created() {
+            request({
+                url: '/home',
+                method: 'get'
+            }).then(res => {
+                const pattern = /<!-- more -->/i
+                for (let article of res) {
+                    
+                    article.publishTime = moment(article.publishTime).format('YYYY年 MM月 DD日 HH:mm:ss')
+                    pattern.test(article.content)
+                    article.content = RegExp['$`']
+                }
+                this.GetArtiles = res
+            }).catch(err => {
+                console.log(err);
+            })
         }
     }
 </script>
 
 <style lang="less">
     .box-card {
-
+        margin-bottom: 14px;
         .el-card__header {
             border-bottom: none;
             padding-bottom: 0px;
