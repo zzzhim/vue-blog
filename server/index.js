@@ -10,7 +10,7 @@ import router from "./router/index";
 
 import query from './uitls/query'
 
-const app =new koa()
+const app = new koa()
 
 app
     .use(logger())
@@ -18,6 +18,6 @@ app
     .use(bodyParser())
     .use(router.routes())
 
-app.listen(3000,()=>{
+app.listen(3000,() => {
     console.log('node is ok')
 })

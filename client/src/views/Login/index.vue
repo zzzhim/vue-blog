@@ -3,10 +3,10 @@
         <v-header :activeIndex="activeIndex"></v-header>
         <el-main>
             <el-row>
-                <el-col :span="12" offset="6">
+                <el-col :span="12" :offset="6">
                     <el-form :model="userForm" status-icon :rules="rules" ref="userForm" label-width="100px" class="demo-ruleForm">
-                        <el-form-item label="账户" prop="email">
-                            <el-input v-model="userForm.email"></el-input>
+                        <el-form-item label="账户" prop="username">
+                            <el-input v-model="userForm.username"></el-input>
                         </el-form-item>
                         <el-form-item label="密码" prop="password">
                             <el-input type="password" v-model="userForm.password" autocomplete="off"></el-input>
@@ -24,6 +24,8 @@
 
 <script>
     import Header from '@/components/Header'
+    import request from '@/utils/request'
+    import { setToken } from '@/utils/auth.js'
 
     export default {
         data() {
@@ -40,23 +42,10 @@
                     }
                 }
             }
-            // 邮箱验证
-            let validateEmail = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入邮箱账号'))
-                }else {
-                    let reg = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/
-                    if (!reg.test(value)) {
-                        callback(new Error("邮箱格式不正确"))
-                    } else {
-                        callback();
-                    }
-                }
-            }
             return {
                 activeIndex: '/login',
                 userForm: {
-                    email: null,
+                    username: null,
                     password: null
                 },
                 rules: {
@@ -68,9 +57,14 @@
                             message: "密码必须在6-12位之间",
                         }
                     ],
-                    email: [
-                        { required: true, validator: validateEmail, trigger: 'blur' }
-                    ]
+                    username: [
+                        { required: true, message: "请输入用户名", trigger: "blur" },
+                        {
+                            min: 6,
+                            max: 16,
+                            message: "用户名必须在6-16位之间",
+                        }
+                    ],
                 },
             }
         },
@@ -78,12 +72,31 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-
+                        request({
+                            url: '/login',
+                            method: 'post',
+                            data: this.userForm
+                        }).then(async res => {
+                            const { success, message, token=null } = res
+                            if(success) {
+                                this.$message({ // 消息提示
+                                    message,
+                                    type: 'success'
+                                })
+                                await setToken(token)
+                                this.$router.push('/')
+                            }else {
+                                this.$message({ // 消息提示
+                                    message,
+                                    type: 'warning'
+                                })
+                            }
+                        })
                     } else {
-                        // this.$message({ // 消息提示
-                        //     message: '登录失败',
-                        //     type: 'warning'
-                        // });
+                        this.$message({ // 消息提示
+                            message: '登录失败',
+                            type: 'warning'
+                        })
                     }
                 });
             },

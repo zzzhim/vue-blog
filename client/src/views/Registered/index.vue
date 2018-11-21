@@ -31,6 +31,7 @@
 <script>
     import Header from '@/components/Header'
     import request from '@/utils/request'
+    import { setToken } from '@/utils/auth.js'
 
     export default {
         data() {
@@ -108,19 +109,32 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         request({
-                            url: 'client/registered',
+                            url: '/registered',
                             method: 'post',
                             data: this.ruleForm2
-                        }).then(res => {
-                            console.log(1);
+                        }).then(async res => {
+                            const { success, message, token } = res
+                            if(success) {
+                                this.$message({ // 消息提示
+                                    message,
+                                    type: 'success'
+                                })
+                                await setToken(token)
+                                this.$router.push('/')
+                            }else {
+                                this.$message({ // 消息提示
+                                    message,
+                                    type: 'warning'
+                                })
+                            }
                         })
                     } else {
-                        // this.$message({ // 消息提示
-                        //     message: '注册失败',
-                        //     type: 'warning'
-                        // });
+                        this.$message({ // 消息提示
+                            message: '注册失败',
+                            type: 'warning'
+                        })
                     }
-                });
+                })
             },
             resetForm(formName) {
                 this.$refs[formName].resetFields();

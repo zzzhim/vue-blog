@@ -8,6 +8,9 @@ import checkToken from '../uitls/checkToken'
 // 引入文章相关的控制器
 import ArticleController from '../Controller/ArticleController'
 
+// 引入展示页面登录注册器
+import ClientUserController from '../ClinetController/UserController'
+
 const router = new Router()
 
 // 前端所有的请求发过来的时候都是http://localhost:3000/api/......
@@ -19,10 +22,6 @@ const router = new Router()
 // 所有的路由都写在这里就可以了
 // 前端所有的请求发过来的时候都是http://localhost:3000/api/......
 router.prefix(`${base_API}`)
-
-router.get('/', async ctx => {
-    ctx.body = '我是首页的接口'
-})
 
 // 登出
 // 只要是登录后才能看到的内容都需要验证一下token的合法性
@@ -42,5 +41,10 @@ router.post('/articles/update/:id', checkToken, ArticleController.updateArticle)
 router.delete('/articles/del/:id', checkToken, ArticleController.deleteArticle)
 // 发布文章
 router.put('/articles/publish/:id', checkToken, ArticleController.publishArticle)
+
+
+// 展示页面
+router.post('/client/registered', ClientUserController.registered)
+router.post('/client/login', ClientUserController.login)
 
 export default router
