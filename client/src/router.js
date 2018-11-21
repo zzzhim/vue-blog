@@ -37,6 +37,11 @@ let router = new Router({
       path: '/tags',
       name: 'tags',
       component: () => import('./views/Tags')
+    },
+    {
+      path: '/readList',
+      name: 'readList',
+      component: () => import('./views/ReadList')
     }
   ]
 })

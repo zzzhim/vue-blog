@@ -56,4 +56,6 @@ router.get('/client/archive', GetArticleController.GetArchive)
 
 router.get('/client/tags', GetArticleController.GetTags)
 
+router.get('/client/readList', GetArticleController.GetReadList)
+
 export default router
