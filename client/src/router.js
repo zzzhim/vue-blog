@@ -16,6 +16,11 @@ let router = new Router({
       path: '/login',
       name: 'login',
       component: () => import('./views/Login')
+    },
+    {
+      path: '/registered',
+      name: 'registered',
+      component: () => import('./views/Registered')
     }
   ]
 })

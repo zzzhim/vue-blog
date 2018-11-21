@@ -1,9 +1,9 @@
 <template>
     <el-container direction="vertical">
-        <v-header></v-header>
+        <v-header :activeIndex="activeIndex"></v-header>
         <el-container>
-            <v-aside width="200px">Aside</v-aside>
-            <v-main>Main</v-main>
+            <v-aside></v-aside>
+            <v-main></v-main>
         </el-container>
     </el-container>
 </template>
@@ -18,7 +18,7 @@
         name: 'home',
         data() {
             return {
-                
+                activeIndex: "/home"
             }
         },
         components: {

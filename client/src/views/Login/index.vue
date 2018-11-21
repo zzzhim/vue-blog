@@ -1,6 +1,6 @@
 <template>
     <el-container direction="vertical">
-        <v-header></v-header>
+        <v-header :activeIndex="activeIndex"></v-header>
         <el-main>
             <el-row>
                 <el-col :span="12" offset="6">
@@ -54,6 +54,7 @@
                 }
             }
             return {
+                activeIndex: '/login',
                 userForm: {
                     email: null,
                     password: null
@@ -77,28 +78,12 @@
             submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        axios({
-                            url: '/login',
-                            method: 'post',
-                            data: this.userForm
-                        }).then(({ data }) => {
-                            // 设置token值
-                            setToken(data.data.token)
-                            this.$message({ // 消息提示
-                                message: data.message,
-                                type: 'success'
-                            });
-                            // 500毫秒后跳转到首页
-                            setTimeout(() => {
-                                this.$router.push('/')
-                            }, 1000);
-                        })
+
                     } else {
-                        this.$message({ // 消息提示
-                            message: '登录失败',
-                            type: 'warning'
-                        });
-                        return false;
+                        // this.$message({ // 消息提示
+                        //     message: '登录失败',
+                        //     type: 'warning'
+                        // });
                     }
                 });
             },
