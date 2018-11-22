@@ -42,6 +42,11 @@ let router = new Router({
       path: '/readList',
       name: 'readList',
       component: () => import('./views/ReadList')
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('./views/About')
     }
   ]
 })

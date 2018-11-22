@@ -1,4 +1,5 @@
 import Article from '../model/ArticleModel'
+import About from '../model/AboutModel'
 
 class ArticleController {
     async getArticles(ctx, next) {
@@ -32,6 +33,21 @@ class ArticleController {
     async publishArticle(ctx) {
         const id = ctx.params.id
         const res = await Article.publishArticle(id)
+        ctx.body = res
+    }
+    // 关于我
+    async UpdateAbout(ctx) {
+        const { data } = ctx.request.body
+        
+        await About.updateAbout(data)
+
+        ctx.body = {
+            success: true,
+        }
+    }
+    
+    async GetAbout(ctx) {
+        const res = await About.GetAbout()
         ctx.body = res
     }
 }

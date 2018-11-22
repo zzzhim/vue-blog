@@ -42,6 +42,11 @@ router.post('/articles/update/:id', checkToken, ArticleController.updateArticle)
 router.delete('/articles/del/:id', checkToken, ArticleController.deleteArticle)
 // 发布文章
 router.put('/articles/publish/:id', checkToken, ArticleController.publishArticle)
+// 关于我
+router.post('/about', checkToken, ArticleController.UpdateAbout)
+
+router.get('/about', checkToken, ArticleController.GetAbout)
+
 
 
 // 展示页面
