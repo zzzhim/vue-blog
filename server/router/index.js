@@ -50,17 +50,22 @@ router.get('/about', checkToken, ArticleController.GetAbout)
 
 
 // 展示页面
+// 注册
 router.post('/client/registered', ClientUserController.registered)
+// 登录
 router.post('/client/login', ClientUserController.login)
-
+// 首页
 router.get('/client/home', GetArticleController.GetHome)
-
+// 文章详情
 router.get('/client/articles', GetArticleController.GetArticles)
-
+// 归档
 router.get('/client/archive', GetArticleController.GetArchive)
-
+// 标签
 router.get('/client/tags', GetArticleController.GetTags)
-
+// 阅读
 router.get('/client/readList', GetArticleController.GetReadList)
+// 关于我
+router.get('/client/about', GetArticleController.GetAbout)
+
 
 export default router

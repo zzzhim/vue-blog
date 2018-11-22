@@ -31,6 +31,12 @@ class GetArticle {
 
         ctx.body = res
     }
+
+    async GetAbout(ctx) {
+        const res = await GetArticleModel.GetAbout()
+
+        ctx.body = res
+    }
 }
 
 export default new GetArticle()

@@ -22,6 +22,10 @@ class GetArticleModel {
     async GetReadList() {
         return await query(escape`SELECT * FROM rd_list ORDER BY id DESC`)
     }
+    // 关于我
+    async GetAbout() {
+        return await query(escape`SELECT * FROM about`)
+    }
 }
 
 export default new GetArticleModel()
