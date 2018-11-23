@@ -32,6 +32,9 @@ const mutations = {
   // 设置当前文章已经发布的状态
   SET_PUBLISH_STATE: (state) => {
     state.isPublished = 1
+  },
+  SET_READLIST: (state, url) => {
+    state.readList = url
   }
 }
 export default mutations

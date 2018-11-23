@@ -47,8 +47,17 @@ router.post('/about', checkToken, ArticleController.UpdateAbout)
 
 router.get('/about', checkToken, ArticleController.GetAbout)
 
+// 获取书籍列表
+router.get('/getReadList', checkToken, ArticleController.getReadList)
+
+router.put('/updateReadList', checkToken, ArticleController.updateReadList)
+
+router.put('/addBooks', checkToken, ArticleController.addBooks)
+
+router.delete('/delReadList', checkToken, ArticleController.delReadList)
 
 
+ 
 // 展示页面
 // 注册
 router.post('/client/registered', ClientUserController.registered)

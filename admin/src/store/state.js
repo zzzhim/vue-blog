@@ -16,7 +16,9 @@ const state =  {
   // 文章是否发布
   isPublished: '',
 
-  toggleDelete: false
+  toggleDelete: false,
+
+  readList: ''
 }
 
 export default state

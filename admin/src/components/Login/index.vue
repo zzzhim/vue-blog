@@ -23,7 +23,7 @@
 <script>
     // 引入请求的模块
     import request from '@/utils/request'
-        // 设置验证的方法
+    // 设置验证的方法
     import { Validator } from 'vee-validate'
     // 引入设置cookie的方法
 
@@ -88,7 +88,6 @@
                         // 跳转到博客系统的首页,也就是/list页面
                     })
                 }else {
-                    console.log('验证没有通过')
                     this.$notify({
                         width: 1000,
                         type: 'warn',
