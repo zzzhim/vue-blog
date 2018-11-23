@@ -10,7 +10,6 @@ class RdListModel {
     async getReadListLimit(size, limit) {
         return await query(escape`SELECT * FROM rd_list ORDER BY id DESC LIMIT ${size},${limit}`)
     }
-    
 
     async updateReadList(author, name, score, id) {
         return await query(escape`UPDATE rd_list SET author=${author}, name=${name}, score=${score} WHERE id=${id}`)

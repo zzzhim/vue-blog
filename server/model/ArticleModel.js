@@ -26,6 +26,12 @@ class ArticleModel {
     async publishArticle(id) {
         return await query(escape`UPDATE ARTICLE SET  publishTime=NOW(), isPublished=1 WHERE id=${id}`)
     }
+
+    // 修改标签
+    async upDataTag(id, tag) {
+
+        return await query(escape`update ARTICLE set tags=${tag} WHERE id=${id}`)
+    }
 }
 
 export default new ArticleModel()

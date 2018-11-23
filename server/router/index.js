@@ -55,9 +55,15 @@ router.put('/updateReadList', checkToken, ArticleController.updateReadList)
 router.put('/addBooks', checkToken, ArticleController.addBooks)
 
 router.delete('/delReadList', checkToken, ArticleController.delReadList)
+// 修改标签
+router.put('/upDataTag', checkToken, ArticleController.upDataTag)
+
+router.delete('/dataDelete', checkToken, ArticleController.dataDelete)
 
 
- 
+
+
+
 // 展示页面
 // 注册
 router.post('/client/registered', ClientUserController.registered)

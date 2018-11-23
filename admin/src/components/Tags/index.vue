@@ -4,14 +4,23 @@
         <aside-a></aside-a>
         <div class="list-container main">
             <h2>
-                文章列表 /
-                <span>ARTICLE LIST</span>
+                标签筛选 / 
+                <span>CHOOSE BY TAG</span>
             </h2>
             <hr>
             <main>
                 <div class="article-list">
-                    <section class="btn-container">
-                        <button id="add" class="not-del" @click="AddArticle">新文章</button>
+                    <section class="article-list-container">
+                        <h3>标签</h3>
+                        <button :class="'article-list-container-button ' + (activeTags.includes(item) ? 'article-list-container-button-active' : '')" @click="onPush(item)" v-for="(item, index) in tags" :key="index" v-html="item">{{ item }}</button>
+
+                        <div class="article-list-container-update" v-show="activeTags.length !== 0">
+                            <h3>修改标签</h3>
+                            <div class="article-list-container-update-input" v-for="(item, index) in activeTags" :key="index" v-show="activeTags.includes(item)">
+                                <input type="text" v-model="activeTags[index]" @keydown.enter="onUpDataTag(index)">
+                                <sup @click="onDelete(index)">x</sup>
+                            </div>
+                        </div>
                     </section>
                     <!-- 文章列表的组件 -->
                     <article-list ref="articleList"></article-list>
@@ -30,28 +39,105 @@
     import HeadNav from '../common/HeadNav.vue'
     import request from '@/utils/request'
 
+    import { mapState, mapMutations } from 'vuex'
+
     export default {
         name: 'List',
         data() {
             return {
-                ArticleList: []
+                tags: [],
+                activeTags: [],
+                RexTags: [],
+                resDatas: [],
             }
         },
+        computed: {
+            ...mapState(['resData']),
+        },
         methods: {
-            // 发表文章的方法
-            AddArticle() {
+            ...mapMutations(['SET_RESDATAS']),
+            // 点击后 修改标签隐藏显示
+            onPush(item) {
+                let index = this.activeTags.indexOf(item)
+                if(index === -1) {
+                    this.activeTags.push(item)
+                    this.RexTags.push(item)
+                }else {
+                    this.activeTags.splice(index, 1)
+                    this.RexTags.splice(index, 1)
+                }
+            },
+            // 修改标签
+            onUpDataTag(index) {
+                if(this.activeTags[index] !== this.RexTags[index]) {
+                    request({
+                        url: '/upDataTag',
+                        method: 'put',
+                        data: {
+                            newVal: this.activeTags[index],
+                            oldVal: this.RexTags[index]
+                        }
+                    }).then(res => {
+                        this.$refs.articleList.query()
+                    }).catch(error => {
+                        console.log(error);
+                    })
+                }
+            },
+            // 删除标签
+            onDelete(index) {
                 request({
-                    method: 'post',
-                    url: '/articles/add',
-                    data: {}
+                    url: '/dataDelete',
+                    method: 'delete',
+                    params: {
+                        oldVal: this.RexTags[index],
+                    }
                 }).then(res => {
-                    // 1.首先获取到插入文章的ID值
-                    const addId = res.insertId
-                    // 2.调用子组件中的updateList方法来更新文章列表
-                    this.$refs.articleList.updateList(addId)
-                }).catch(err => {
-                    console.log(err);
+                    this.$refs.articleList.query()
+                }).catch(error => {
+                    console.log(error);
                 })
+            }
+        },
+        created() {
+        },
+        watch: {
+            resData(newVal, oldVal) {
+                this.tags = []
+                let resData = this.resData
+                // 遍历
+                for(let obj of resData ) {
+                    
+                    if(obj.tags != '') {
+                        // 分割
+                        obj.tags = obj.tags.split(',')
+                        // 去重
+                        for(let index=0; index < obj.tags.length; index++) {
+                            // 是否包含
+                            if(!this.tags.includes(obj.tags[index])) {
+                                this.tags.push(obj.tags[index])
+                            }
+                        }
+                    }
+                }
+            },
+            activeTags(newVal, oldVal) {
+                let resData = this.resData
+                let resDatas = []
+                for (let obj of resData) {
+                    if(obj.tags != '') {
+                        // 去重
+                        for(let index = 0; index < obj.tags.length; index++) {
+                            // 是否包含
+                            if(newVal.includes(obj.tags[index])) {
+                                if(!resDatas.includes(obj)) {
+                                    resDatas.push(obj)
+                                }
+                            }
+                        }
+                    }
+                }
+                this.SET_RESDATAS(resDatas)
             }
         },
         components: {
@@ -89,5 +175,61 @@ main {
     height: 100%;
     padding: 0 0.8em 0.5em 0;
     overflow: auto;
+}
+
+.article-list-container{
+
+    &-button {
+
+
+        margin: 0 1em 1em 0;
+        padding: 0.3em;
+        color: #f18f01;
+        border-radius: 2px;
+        border: 1px solid #f18f01;
+        background: transparent;
+        cursor: pointer;
+
+        &:focus {
+            outline: none;
+        }
+    }
+    &-button-active {
+        color: #ffffff;
+        background: #f18f01;
+    }
+
+    &-update {
+
+        &-input {
+            width: 100px;
+            display: inline-block;
+            margin-right: 10px;
+
+            input {
+                margin-bottom: 5px;
+                width: 80px;
+                background: none;
+                border: none;
+                border-bottom: 1px solid #c1bfb5;
+                outline: none;
+                color: #34495e;
+            }
+            sup {
+                display: none;
+            }
+
+            &:hover  sup {
+                display: inline-block;
+                cursor: pointer;
+                background: #c1bfb5;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                line-height: 8px;
+                text-align: center;
+            }
+        }
+    }
 }
 </style>

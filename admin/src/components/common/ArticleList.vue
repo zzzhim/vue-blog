@@ -1,6 +1,7 @@
 <template>
     <div>
         <ul class="list">
+
             <li class="article"  :class="{active: activeIndex === index, published: isPublished === 1}" v-for="{title, createTime,isPublished, isChosen},index in articleList" @click="select(index)">
                 <header>{{ title }}</header>
                 <p>{{ createTime }}</p>
@@ -24,7 +25,7 @@
         },
         // 把全局的vuex里面的state和mutations放到计算属性中
         computed: {
-            ...mapState(['id', 'title', 'tags', 'content', 'isPublished', 'toggleDelete']),
+            ...mapState(['id', 'title', 'tags', 'content', 'isPublished', 'toggleDelete', 'resDatas']),
         },
         methods: {
             updateList(updateId) {
@@ -48,28 +49,30 @@
                 // 当你在选择文章的时候,当前被选中的文章扔到全局管理中去
                 this.SET_CURRENT_ARTICLE(this.articleList[index])
             },
-            ...mapMutations(['SET_CURRENT_ARTICLE']),
+            query() {
+                request({
+                    method: 'get',
+                    url: '/articles'
+                }).then(res => {
+                    this.SET_RESDATA(res)
+                    for(let article of res) {
+                        article.createTime = moment(article.createTime).format('YYYY年--MM月--DD日 HH:mm:ss')
+                        article.isChosen = true
+                    }
+                    this.articleList = res
+                    if(this.articleList.length !== 0) {
+                        this.SET_CURRENT_ARTICLE(this.articleList[0])
+                        this.activeIndex = 0
+                    }
+                }).catch(err => {
+                    console.log(err)
+                })
+            },
+            ...mapMutations(['SET_CURRENT_ARTICLE', 'SET_RESDATA']),
         },
         // 当该组件创建的时候自动执行里面的请求
         created() {
-            request({
-                method: 'get',
-                url: '/articles'
-            }).then(res => {
-                // this.articleList = res
-                // console.log(res);
-                for(let article of res) {
-                    article.createTime = moment(article.createTime).format('YYYY年--MM月--DD日 HH:mm:ss')
-                    article.isChosen = true
-                }
-                this.articleList = res
-                if(this.articleList.length !== 0) {
-                    this.SET_CURRENT_ARTICLE(this.articleList[0])
-                    this.activeIndex = 0
-                }
-            }).catch(err => {
-                console.log(err)
-            })
+            this.query()
         },
         // 监听vuex数据
         watch:{
@@ -106,6 +109,9 @@
                         isPublished: ''
                     })
                 }
+            },
+            resDatas(val) {
+                this.articleList = val
             }
         }
     }

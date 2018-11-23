@@ -4,6 +4,8 @@ class GetArticle {
     // 首页
     async GetHome(ctx) {
         const res = await GetArticleModel.getAllArticle()
+        console.log(res);
+        
         ctx.body = res
     }
     // 文章详情

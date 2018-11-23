@@ -1,7 +1,7 @@
 <template>
     <div class="editor">
       <input type="text" class="title" id="title" v-model="title" @input="autosave">
-      <div class="operate-bar">
+      <div class="operate-bar" v-if="$route.path === '/lists'">
         <section class="tag-container">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-tag"></use>
@@ -114,7 +114,6 @@
           }).then(res => {
             // 删除以后要更新视图,让视图的文章也跟着删除
             this.$store.commit('SET_DELETE_ARTICLE')
-            console.log(res)
           }).catch(err => {
             // this.$store.commit('SET_CURRENT_ARTICLE', {})
             console.log(err);

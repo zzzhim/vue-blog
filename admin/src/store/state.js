@@ -18,7 +18,11 @@ const state =  {
 
   toggleDelete: false,
 
-  readList: ''
+  readList: '',
+
+  resData: '',
+
+  resDatas: ''
 }
 
 export default state

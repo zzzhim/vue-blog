@@ -114,6 +114,54 @@ class ArticleController {
             console.log(error);
         }
     }
+
+    // 修改标签
+    async upDataTag(ctx) {
+        let { newVal, oldVal } = ctx.request.body
+
+        try {
+            const res = await Article.getAllArticle()
+
+            for (let iterator of res) {
+                iterator.tags = iterator.tags.split(',')
+                let index = iterator.tags.indexOf(oldVal)
+                if(index !== -1) {
+                    iterator.tags[index] = newVal
+                    let tag = iterator.tags.join(',')
+                    await Article.upDataTag(iterator.id, tag)
+                }
+            }
+            ctx.body = {
+                success: true
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async dataDelete(ctx) {
+        console.log(111);
+        
+        const { oldVal } = ctx.request.query
+
+        try {
+            const res = await Article.getAllArticle()
+
+            for (let iterator of res) {
+                iterator.tags = iterator.tags.split(',')
+                let index = iterator.tags.indexOf(oldVal)
+                if (index !== -1) {
+                    await Article.deleteArticle(iterator.id)
+                }
+            }
+            ctx.body = {
+                success: true
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+    }
 }
 
 export default new ArticleController()

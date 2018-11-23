@@ -35,6 +35,13 @@ const mutations = {
   },
   SET_READLIST: (state, url) => {
     state.readList = url
+  },
+  SET_RESDATA: (state, data) => {
+    state.resData = data
+  },
+
+  SET_RESDATAS: (state, data) => {
+    state.resDatas = data
   }
 }
 export default mutations

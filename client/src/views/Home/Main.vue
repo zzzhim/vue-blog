@@ -38,14 +38,19 @@
                 url: '/home',
                 method: 'get'
             }).then(res => {
+                
                 const pattern = /<!-- more -->/i
                 for (let article of res) {
-                    
                     article.publishTime = moment(article.publishTime).format('YYYY年 MM月 DD日 HH:mm:ss')
+
                     pattern.test(article.content)
+
                     article.content = RegExp['$`']
                 }
                 this.GetArtiles = res
+
+                console.log(res);
+                
             }).catch(err => {
                 console.log(err);
             })
