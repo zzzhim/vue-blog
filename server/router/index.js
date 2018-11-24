@@ -66,8 +66,17 @@ router.delete('/dataDelete', checkToken, ArticleController.dataDelete)
 router.post('/client/registered', ClientUserController.registered)
 // 登录
 router.post('/client/login', ClientUserController.login)
+// 上传头像
+router.post('/client/homeImg', ClientUserController.homeImg)
+
+
+
 // 首页
 router.get('/client/home', GetArticleController.GetHome)
+
+// 头像
+router.get('/client/getUrlPath', ClientUserController.getUrlPath)
+
 // 文章详情
 router.get('/client/articles', GetArticleController.GetArticles)
 // 归档

@@ -25,7 +25,7 @@
 <script>
     import Header from '@/components/Header'
     import request from '@/utils/request'
-    import { setToken } from '@/utils/auth.js'
+    import { setToken, setusername } from '@/utils/auth.js'
 
     export default {
         data() {
@@ -77,13 +77,14 @@
                             method: 'post',
                             data: this.userForm
                         }).then(async res => {
-                            const { success, message, token=null } = res
+                            const { success, message, token=null, username=null, ImgUrl='' } = res
                             if(success) {
                                 this.$message({ // 消息提示
                                     message,
                                     type: 'success'
                                 })
                                 await setToken(token)
+                                await setusername(username)
                                 this.$router.push('/')
                             }else {
                                 this.$message({ // 消息提示

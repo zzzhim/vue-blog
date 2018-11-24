@@ -5,6 +5,10 @@ class CilentUserModel {
     async getUserByName(user) {
         return await query(`SELECT * FROM clientuser WHERE username='${user}'`)
     }
+
+    async updateAvatar(name, username) {
+        return await query(`UPDATE clientuser SET avatar='${name}' WHERE username=${username}`)
+    }
 }
 
 export default new CilentUserModel()
