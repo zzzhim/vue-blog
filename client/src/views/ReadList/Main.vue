@@ -50,8 +50,8 @@
             return {
                 tableData: [
                     {
-                        name: '2016-05-02',
-                        author: '王小虎',
+                        name: '',
+                        author: '',
                         score: 3.7
                     }
                 ]

@@ -35,11 +35,7 @@
         },
         methods: {
             handleSelect(key, keyPath) {
-                if(key == '/home') {
-                    this.$router.push('/')
-                }else {
-                    this.$router.push(key)
-                }
+                this.$router.push(key)
             }
         },
 

@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Nprogress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { getToken } from '@/utils/auth'
 
 Vue.use(Router)
 
@@ -9,6 +10,10 @@ let router = new Router({
   routes: [
     {
       path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/home',
       name: 'home',
       component: () => import('./views/Home')
     },
@@ -54,11 +59,23 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   // to and from are both route objects
   Nprogress.start()
-  next()
+  
+  if(getToken()) {
+    if(to.path == '/login') {
+      // 路由重定向
+      next({ path: '/home' })
+      Nprogress.done()
+    }else {
+      next()
+    }
+  }else {
+    next()
+  }
 })
 
 router.afterEach(() => {
   Nprogress.done()
 })
+
 
 export default router
