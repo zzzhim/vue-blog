@@ -1,6 +1,6 @@
 <template>
     <el-container direction="vertical">
-        <v-header :activeIndex="activeIndex"></v-header>
+        <v-header></v-header>
         <el-container>
             <v-aside></v-aside>
             <v-main></v-main>

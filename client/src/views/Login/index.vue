@@ -1,6 +1,6 @@
 <template>
     <el-container direction="vertical">
-        <v-header :activeIndex="activeIndex"></v-header>
+        <v-header></v-header>
         <el-main>
             <el-row>
                 <el-col :span="12" :offset="6">
