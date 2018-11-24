@@ -16,6 +16,18 @@
                 </el-card>
             </el-col>
         </el-row>
+        <el-row>
+            <el-col :span="24" >
+                    <el-pagination
+                        background
+                        @current-change="handleCurrentChange"
+                        :page-size="5"
+                        layout="prev, pager, next, jumper"
+                        class="pagination"
+                        :total="len">
+                    </el-pagination>
+            </el-col>
+        </el-row>
     </el-main>
 </template>
 
@@ -27,38 +39,49 @@
     export default {
         data() {
             return {
-                GetArtiles: null
+                GetArtiles: null,
+                len: 0
             }
         },
         methods: {
             parseMarkdown,
+            handleCurrentChange(index) { // 当前页
+                this.GetHome(index)
+            },
+            GetHome(index) {
+                request({
+                    url: '/home',
+                    method: 'get',
+                    params: {
+                        size: 5,
+                        limit: index || 1
+                    }
+                }).then(res => {
+                    const pattern = /<!-- more -->/i
+                    for (let article of res.data) {
+                        article.publishTime = moment(article.publishTime).format('YYYY年 MM月 DD日 HH:mm:ss')
+
+                        pattern.test(article.content)
+
+                        article.content = RegExp['$`']
+                    }
+                    this.GetArtiles = res.data
+                    this.len = res.len
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
         },
         created() {
-            request({
-                url: '/home',
-                method: 'get'
-            }).then(res => {
-                
-                const pattern = /<!-- more -->/i
-                for (let article of res) {
-                    article.publishTime = moment(article.publishTime).format('YYYY年 MM月 DD日 HH:mm:ss')
-
-                    pattern.test(article.content)
-
-                    article.content = RegExp['$`']
-                }
-                this.GetArtiles = res
-
-                console.log(res);
-                
-            }).catch(err => {
-                console.log(err);
-            })
+            this.GetHome()
         }
     }
 </script>
 
 <style lang="less">
+    .pagination {
+        text-align: center;
+    }
     .box-card {
         margin-bottom: 14px;
         .el-card__header {

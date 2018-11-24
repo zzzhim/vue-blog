@@ -3,10 +3,16 @@ import GetArticleModel from '../clientModel/GetArticleModel'
 class GetArticle {
     // 首页
     async GetHome(ctx) {
-        const res = await GetArticleModel.getAllArticle()
-        console.log(res);
+        const { size, limit } = ctx.request.query
         
-        ctx.body = res
+        const len = (await GetArticleModel.Getlens()).length
+        const res = await GetArticleModel.getAllArticle((size * limit - size), (size * limit))
+
+        ctx.body = {
+            data: res,
+            len
+        }
+        
     }
     // 文章详情
     async GetArticles(ctx) {

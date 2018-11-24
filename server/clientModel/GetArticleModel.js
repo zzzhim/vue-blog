@@ -2,9 +2,15 @@ import query from '../uitls/query.js'
 import escape from '../uitls/escape'
 
 class GetArticleModel {
+
+    // 获取文章个数
+    async Getlens() {
+        return await query(escape`SELECT * FROM ARTICLE  WHERE isPublished=${1}`)
+    }
+
     // 查询所有文章
-    async getAllArticle() {
-        return await query(escape`SELECT * FROM ARTICLE  WHERE isPublished=${1} ORDER BY createTime DESC`)
+    async getAllArticle(limit, size) {
+        return await query(escape`SELECT * FROM ARTICLE  WHERE isPublished=${1} ORDER BY createTime DESC LIMIT ${limit}, ${size}`)
     }
     // 文章详情
     async GetArticles(id) {
